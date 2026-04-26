@@ -5,6 +5,7 @@ const promBundle = require("express-prom-bundle");
 const axios = require('axios');
 
 const app = express();
+app.set('trust proxy', 1);
 
 const auth = require('./auth');
 const users = require('./users');

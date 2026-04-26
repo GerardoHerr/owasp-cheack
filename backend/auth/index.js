@@ -2,10 +2,19 @@ const express = require('express');
 const { createHash } = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 const pg = require('pg');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 5, // Límite de 5 intentos por IP
+    message: { error: 'Demasiados intentos. Por favor, intenta de nuevo en 15 minutos.' },
+    standardHeaders: true, // Retorna info de límite en los headers `RateLimit-*`
+    legacyHeaders: false,
+});
+
 module.exports = function (httpRequestsTotal, dbConfig) {
-    router.post('/login', async (req, res) => {
+    router.post('/login', loginLimiter, async (req, res) => {
         const { username, password } = req.body;
         console.log(`Username and password: ${username} ${password}`);
         if (!username || !password) {

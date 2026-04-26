@@ -64,13 +64,13 @@
 
             // fetch user data and populate form
             const fetchUserData =  async () => {
-                console.log('Fetching user data...');
-                console.log(`Cookies: ${document.cookie}`);
+                //console.log('Fetching user data...');
+                //console.log(`Cookies: ${document.cookie}`);
                 const session = document.cookie.split(';').find(c => {
-                    console.log(`Cookie: ${c}`);
+                    //console.log(`Cookie: ${c}`);
                     return c.includes('main_session');
                 });
-                console.log(`Session: ${session}`);
+                //console.log(`Session: ${session}`);
 
                 // if session is undefined, redirect to logout
                 if (!session) {
@@ -78,10 +78,10 @@
                 }
 
                 const sessionData = atob(decodeURIComponent(session.split('=')[1]));
-                console.log(`Session data: ${sessionData}`);
+                //console.log(`Session data: ${sessionData}`);
                 const { userId, role } = JSON.parse(sessionData);
-                console.log(`User ID: ${userId}`);
-                console.log(`Role: ${role}`);
+                //console.log(`User ID: ${userId}`);
+                //console.log(`Role: ${role}`);
 
                 if (role !== 'admin') {
                     adminEl.style.display = 'none';
@@ -92,7 +92,7 @@
 
                 const response = await fetch(`/api/users/${userId}`);
                 const data = await response.json();
-                console.log(`User data: ${JSON.stringify(data)}`);
+                //console.log(`User data: ${JSON.stringify(data)}`);
 
                 const { username, bio, first_name, last_name, email, phone, website } = data;
                 profilePicture.src = `/files/${username}.jpg`;
@@ -103,7 +103,7 @@
                 profile.email.value = email;
                 profile.phone.value = phone;
                 profile.website.value = website;
-                console.log('User data fetched and populated form');
+                //console.log('User data fetched and populated form');
             };
             fetchUserData();
 
